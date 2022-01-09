@@ -1,4 +1,3 @@
-# tripadvisor-reviews-crawler
 
 ## How to Run
 
