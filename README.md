@@ -17,3 +17,6 @@ developer tools, or in the snippets.
 
 If you like and/or going to use something of this project, please give it a star. Happy crawling.
 
+
+If you want to understand how the restaurant crawler works, look at the code of the hotel crawler, the code is similar
+for both crawlers, but the hotel crawler contains sufficient comments to explain it's functionality.
