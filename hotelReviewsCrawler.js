@@ -1,3 +1,6 @@
+// License: University of Thessaly
+
+
 // the url of a hotel to download data from. 
 var baseUrl = document.location.href;
 
@@ -68,6 +71,11 @@ function crawler(baseUrl) {
                     curReview.childNodes[1].childNodes[2].childNodes[0].childNodes[1].click();
                     review = curReview.childNodes[1].childNodes[2].childNodes[0].childNodes[0].childNodes[0].textContent;
                 }
+
+                // if the user or the title are in a RTL language like Japanese, this will mess our csv file, 
+                // so skip that review.
+                if (/[\u0590-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/.test(from) || /[\u0590-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/.test(title))
+                    continue;
 
                 // If the 'review' variable contains commas ',' replace them with a space, since we want to export to a csv file.
                 // Also do the same for the 'title' variable.
