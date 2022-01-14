@@ -1,15 +1,11 @@
-It is important to note that this crawler scripts will only work for enlish-language
-reviews. That is because Tripadvisor changes the content of the webpage according to 
-the language used. So, for example, when you want to get the reviews of a Restaurant,
-make sure that you have selected to only see english comments.
-
-
 ## How to Run
 
 You are advised to use Opera as your browsing client. That is why, on opera, there is
 a built-in VPN service that you may run. You are advised to run it.
 
 1. Go to a Tripadvisor page of a restaurant or a hotel.
+	 Make sure the page does not contain a  '.gr/', '.co', '.uk', etc.
+	 If it does, just remove that or replace it with '.com'
 
 2. Open Developer Tools.
 
@@ -26,4 +22,24 @@ hotel crawler, the code is similar for both crawlers, but the hotel crawler cont
 sufficient comments to explain it's functionality.
 
 
-Give the project a star if you liked it.
+## FAQ
+
+#### Question:
+I did everything correctly, but the script is not working. What can I do? 
+
+#### Answer:
+- Tripadvisor changes VERY frequently the rendered HTML, introducing however only
+small changes. Try to understand the code, and run it manually, step by step, to
+find out if something is not parsed correctly. As a last resort, you may contact me.
+
+- If you cant find out whether the problem you are facing has to do with the parsing 
+of the file (although most probably it will have to do with the parsing), you may contact me.
+
+- If you stongly believe that the problem is not with the html parsing, you may 
+either contact me or open an issue on github.
+
+
+
+Give this github project a star if you liked it.
+The link to the github repo:
+https://github.com/georzaza/tripadvisor-reviews-crawler

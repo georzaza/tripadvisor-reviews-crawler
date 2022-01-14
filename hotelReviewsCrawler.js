@@ -1,5 +1,42 @@
-// License: University of Thessaly
+/**
+ * COPYRIGHT 2022
+ * 
+ * AUTHOR: GIORGOS ZAZANIS
+ * 
+ * LICENSE: UNIVERSITY OF THESSALY, 
+ * DEPARTMENT OF ELECTRICAL & COMPUTER ENGINEERING
+ * 
+ * YOU ARE NOT AUTHORIZED TO RUN OR USE THIS CODE IN ANY OTHER WAY UNLESS YOU ARE 
+ * SOMEHOW RELATED TO THE AFOREMENTIONED DEPARTMENT.(TEACHER, STUDENT, PARTNER, ETC)
+ * 
+ * 
+ * 1. MEMBERS OF THE DEPARTMENT THAT SOMEHOW HAPPENED TO HAVE THIS CODE THIS CODE ARE NOT 
+ *    ALLOWED IN ANY WAY TO DISTRIBUTE IT TO ANYONE. 
+ * 
+ * 2. MEMBERS OF THE DEPARTMENT THAT SOMEHOW HAPPENED TO HAVE THIS CODE THIS CODE ARE ONLY 
+ *    ALLOWED TO RUN THIS CODE IF THEY ARE EXPLICITLY REGISTERED TO THE COURSE 
+ *    ECE 514 - ΠΕΡΙΒΑΛΛΟΝΤΑ ΕΠΙΛΥΣΗΣ ΠΡΟΒΛΗΜΑΤΩΝ ΓΙΑ ΕΦΑΡΜΟΓΕΣ ΣΤΗΝ ΕΠΙΣΤΗΜΗ ΔΕΔΟΜΕΝΩΝ.
+ * 
+ * 3. MEMBERS OF THE DEPARTMENT THAT SOMEHOW APPENED TO HAVE THIS CODE ARE ALLOWED
+ *    TO MODIFY THIS CODE. FOR ANY CODE THAT HAS BEEN THE PRODUCT OF THIS CODE SECTIONS 
+ *    1,2, AND 3 APPLY.
+ * 
+ * 4. SPECIFICALLY FOR THE TEACHER OF THE COURSE MENTIONED IN SECTION 2, ALL PERMISSIONS
+ *    ARE GRANTED, INCLUDING MODIFICATION, DISTRIBUTION, RUNNING, ETC,  EXCEPT FOR THE 
+ *    DISTRIBUTION OF THIS CODE OR ANY CODE THAT HAS BEEN THE PRODUCT OF THIS CODE TO 
+ *    ANY THIRD PARTY THAT IS NOT AT LEAST SOMEHOW RELATED TO THE UNIVERSITY OF THESSALY
+ *    (TEACHER, STUDENT, PARTNER, ETC). DISTRIBUTION TO THE piazza PLATFORM IS ALSO GRANTED.
+ * 
+ * 5. IN CASE OF THE COURSE CHANGING NAME OR TEACHER IN THE FUTURE, ALL 4 SECTIONS STILL APPLY.
+ */
 
+
+// The script is a little messy, but it gets it's job done.
+// If you find some problem and don't know how to fix it, let me know, to see what I can do about it.
+// If you do know how to fix it and actually fix it, I would appreciate it if you let me know.
+
+// An example page of a hotel that this script would work on is: 
+// https://www.tripadvisor.com/Hotel_Review-g189507-d262261-Reviews-Domotel_Xenia_Volos_City_Resort-Volos_Magnesia_Region_Thessaly.html
 
 // the url of a hotel to download data from. 
 var baseUrl = document.location.href;
@@ -20,17 +57,19 @@ var reviews = ['from,when,rating,title,review'];
 // pointer to the array above.
 var reviewsPointer = 0;
 
+// clear the browser console messages
+clear();
+
 // The crawler. 
 // We do a xmlHTTPRequest at the baseUrl at first (although not needed), get the reviews of the baseUrl and save them.
 // Then we create the next url, do a xmlHTTP request to it, get the reviews again, etc,
-// until either the reviews we gathered are ~200 or we reached the final review if the totalReviews < 200.
 function crawler(baseUrl) {
-
+    
+    let temp = document.querySelector("[data-test-target='reviews-tab']");
+    totalReviews = parseInt(temp.getElementsByClassName('cvxmR')[2].textContent.substr(1).split(')')[0]);
     let xmlHTTP;
     xmlHTTP = new XMLHttpRequest(); 
 
-    // represents whether we make a request to the baseUrl or not. 
-    var flag=true;
     xmlHTTP.onreadystatechange = function() {
         
         if (this.readyState == 4 && this.status == 200)    {
@@ -39,15 +78,8 @@ function crawler(baseUrl) {
             doc = document.implementation.createHTMLDocument("doc");
             doc.write(this.responseText);
 
-            // Since all pages that we will visit contain the totalReviews value, we only want
-            // to get this value once.
-            if (flag) {
-                totalReviews = parseInt((doc.querySelectorAll('.cdKMr.Mc._R.b'))[0].textContent);
-                flag = false;
-            }
-
             curReviews = doc.querySelector("[data-test-target='reviews-tab']");
-            nofCurReviews = curReviews.firstElementChild.childNodes.length-3;
+            nofCurReviews = curReviews.childNodes.length-3;
             
             for (let i=2; i<=nofCurReviews+1; i++) {
                 curReview = curReviews.firstElementChild.childNodes[i];
@@ -77,9 +109,9 @@ function crawler(baseUrl) {
                 if (/[\u0590-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/.test(from) || /[\u0590-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/.test(title))
                     continue;
 
-                // If the 'review' variable contains commas ',' replace them with a space, since we want to export to a csv file.
-                // Also do the same for the 'title' variable.
-                reviews[++reviewsPointer] = from + ',' + when + ',' + rating + ',' + title.replaceAll(',', ' ') + ',' + review.replaceAll(',', ' ');
+                // If any of the fields we are interested in contains one or more commas
+                // replace them with a space, since we want to export to a csv file.
+                reviews[++reviewsPointer] = from.replaceAll(',', ' ') + ',' + when.replaceAll(',', ' ') + ',' + rating + ',' + title.replaceAll(',', ' ') + ',' + review.replaceAll(',', ' ');
             }
             reviewsCounter += nofCurReviews;
         }
@@ -94,7 +126,7 @@ function crawler(baseUrl) {
     
     // Tripadvisor has a specific format for each of the reviews pages.
     // The second page of the reviews will be like some-part-of-baseurl + -or5-  + the-rest-of-the-baseUrl.
-    // The  third page of the reviews will be like some-part-of-baseurl + -or10  + the-rest-of-the-baseUrl, etc.
+    // The third page of the reviews will be like some-part-of-baseurl + -or10  + the-rest-of-the-baseUrl, etc.
     // That explains the use of this variable.
     pagesVisited = 1;
 
