@@ -82,7 +82,7 @@ function crawler(baseUrl) {
             nofCurReviews = curReviews.childNodes.length-3;
             
             for (let i=2; i<=nofCurReviews+1; i++) {
-                curReview = curReviews.firstElementChild.childNodes[i];
+                curReview = curReviews.childNodes[i];
                 from = (curReview.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0]).textContent;
                 when = curReview.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[1].textContent.substring(16);
 
