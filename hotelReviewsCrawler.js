@@ -66,7 +66,13 @@ clear();
 function crawler(baseUrl) {
     
     let temp = document.querySelector("[data-test-target='reviews-tab']");
-    totalReviews = parseInt(temp.getElementsByClassName('cvxmR')[2].textContent.substr(1).split(')')[0]);
+    //totalReviews = parseInt(temp.getElementsByClassName('cvxmR')[2].textContent.substr(1).split(')')[0]);
+    langFilter = document.querySelectorAll("[for='LanguageFilter_1']");
+    let totalReviews = 0;
+    for (let j=0; j<langFilter[0].childElementCount; j++) {
+        if (langFilter[0].childNodes[j].textContent == 'English')
+            totalReviews = langFilter[0].childNodes[j].nextElementSibling.textContent.substr(1).split(')')[0];
+    }
     let xmlHTTP;
     xmlHTTP = new XMLHttpRequest(); 
 
