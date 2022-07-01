@@ -29,17 +29,10 @@ I did everything correctly, but the script is not working. What can I do?
 
 #### Answer:
 - Tripadvisor changes VERY frequently the rendered HTML, introducing however only
-small changes. Try to understand the code, and run it manually, step by step, to
+small changes. Try to understand the code, maybe run it manually, step by step, to
 find out if something is not parsed correctly. As a last resort, you may contact me.
 
-- If you cant find out whether the problem you are facing has to do with the parsing 
-of the file (although most probably it will have to do with the parsing), you may contact me.
-
-- If you stongly believe that the problem is not with the html parsing, you may 
-either contact me or open an issue on github.
 
 
-
-Give this github project a star if you liked it.
-The link to the github repo:
+The link to the github repo:  
 https://github.com/georzaza/tripadvisor-reviews-crawler
